@@ -1,9 +1,15 @@
 
 #include <esp_now.h>
 #include <WiFi.h>
+#include <IRLibSendBase.h> // Frist include the send base
+#include <IRLib_P01_NEC.h>
+#include <IRLib_P02_Sony.h>
+#include <IRLibCombo.h>
+
 
 #define CHANNEL 1
 
+IRsend mySender; //declare a sender object
 int Message;
 
 // Init ESP Now with fallback
@@ -71,13 +77,9 @@ void setup() {
 }
 void loop() {
 if (Message == 111){
-  digitalWrite (ledPin, HIGH);  // turn on the LED
-  delay(500); // wait for half a second or 500 milliseconds
-  digitalWrite (ledPin, LOW); // turn off the LED
-  delay(500); // wait for half a second or 500 milliseconds
+  mySender.send(SONY,0xa8bca, 20); //argument list: protocol, command, bit-rate
 } else if (Message == 000){
-  digitalWrite (ledPin, LOW); // turn off the LED
-  delay(500); // wait for half a second or 500 milliseconds
+  mySender.send(SONY,0xa8bca, 20);
 }
   
  
